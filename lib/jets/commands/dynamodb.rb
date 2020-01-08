@@ -1,12 +1,12 @@
 module Jets::Commands
   class Dynamodb < Jets::Commands::Base
-    desc "migrate [path]", "Runs migrations"
+    desc "migrate", "Runs DynamoDB migrations"
     long_desc Help.text('dynamodb:migrate')
-    def migrate(path)
-      Migrator.new(path, options).run
+    def migrate
+      Dynomite::Migration::Runner.new(options).run
     end
 
-    desc "generate [name]", "Creates a migration for a DynamoDB table"
+    desc "generate NAME", "Creates a migration for a DynamoDB table"
     long_desc Help.text('dynamodb:generate')
     option :partition_key, default: "id:string:hash", desc: "table's partition key"
     option :sort_key, default: nil, desc: "table's sort key"

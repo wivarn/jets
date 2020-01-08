@@ -1,6 +1,6 @@
 Generates a migration file which can be used to create a DynamoDB table.  To run the migration file use `jets dynamodb:migrate`.
 
-The table name will have a namespace. For example, if your project is called `demo`, the environment is `development`, and you create a table called `posts`.  The DynamoDB full table name will be `demo-dev-posts`.  You can change this behavior by editing your `config/dynamodb.yml` and adjusting the `table_namespace` value.
+The table name will have a namespace. For example, if your project is called `demo`, the environment is `development`, and you create a table called `posts`.  The DynamoDB full table name will be `demo-dev_posts`.  You can change this behavior with a `config/initializer/dynamodb.rb` and adjusting the `namespace` value.
 
 DynamoDB tables support certain types of attribute types. The CLI will parse the `--partition-key` option and use the second part of the option to map it to the underlying DynamoDB type using this mapping.
 
@@ -19,22 +19,21 @@ For example, `--partition-key id:string`  maps 'string' to 's'.  More info on Dy
 
 ## Examples
 
-    $ jets dynamodb:generate create_posts --partition-key id # default attribute type is string
-    $ jets dynamodb:generate create_posts --partition-key id:number # attribute type will be number
-    $ jets dynamodb:generate create_comments --partition-key post_id:string --sort-key created_at:string
+    jets dynamodb:generate create_posts --partition-key id # default attribute type is string
+    jets dynamodb:generate create_posts --partition-key id:number # attribute type will be number
+    jets dynamodb:generate create_comments --partition-key post_id:string --sort-key created_at:string
 
-## Running migrations
+## Running Migrations
 
-    $ jets dynamodb:migrate path/to/migration
-    $ jets dynamodb:migrate dynamodb/migrate/20171112162404-create_articles_migration.rb
+    jets dynamodb:migrate
 
 To add global secondary indexes:
 
-    $ jets dynamodb:generate update_comments --partition-key user_id:string --sort-key created_at:string
+    jets dynamodb:generate update_comments --partition-key user_id:string --sort-key created_at:string
 
 To run:
 
-    $ jets dynamodb:migrate dynamodb/migrate/20171112161530-create_posts_migration.rb
+    jets dynamodb:migrate
 
 ## Conventions
 
@@ -42,11 +41,11 @@ A create_table or update_table migration file is generated based name you provid
 
 The table_name is also inferred from the migration name you provide.  Examples:
 
-    $ jets dynamodb:generate create_posts # table_name: posts
-    $ jets dynamodb:generate update_comments # table_name: comments
+    jets dynamodb:generate create_posts # table_name: posts
+    jets dynamodb:generate update_comments # table_name: comments
 
 You can override both of these conventions:
 
-    $ jets dynamodb:generate create_my_posts --table-name posts
-    $ jets dynamodb:generate my_posts --table-action create_table --table-name posts
-    $ jets dynamodb:generate my_posts --table-action update_table --table-name posts
+    jets dynamodb:generate create_my_posts --table-name posts
+    jets dynamodb:generate my_posts --action create_table --table-name posts
+    jets dynamodb:generate my_posts --action update_table --table-name posts
