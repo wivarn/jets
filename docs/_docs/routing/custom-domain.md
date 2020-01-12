@@ -96,4 +96,14 @@ For the most control, it is recommended to create a CloudFront distribution **ou
 
 This provides you full manual control over the DNS. You can deploy additional [extra environments]({% link _docs/env-extra.md %}) and update which Jets environment CloudFront points to. This type of blue-green deployment can be useful for large feature rollouts. Using CloudFront will also allow you to do things like redirect http to https. The notable drawback is that CloudFront changes can take 15m-45m to deploy.
 
+## CloudFront host
+
+CloudFront does not always pass the original domain host in the Headers. So helpers like `redirect_to` will show the "internal" origin host. You can explicitly set the default_host to avoid this:
+
+```ruby
+Jets.application.configure do
+  # ...
+  config.domain.default_host = "www.coolapp.com"
+```
+
 {% include prev_next.md %}

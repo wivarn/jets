@@ -72,8 +72,8 @@ class Jets::Controller
     end
 
     def actual_host
-      # actually host is in headers["origin"] when cloudfront is in front
-      headers["origin"] || headers["host"]
+      # actually host is in headers["origin"] when cloudfront is in front on post request
+      Jets.config.domain.default_host || headers["origin"] || headers["host"]
     end
 
   end
