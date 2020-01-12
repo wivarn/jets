@@ -47,6 +47,7 @@ module Jets
 
     def handle_error(e)
       puts e.message
+      return if e.message.include?("already activated")
       puts <<~EOL.color(:yellow)
         WARNING: Unable to require "bundler/setup"
         There may be something funny with your ruby and bundler setup.
