@@ -1,9 +1,9 @@
 ---
 title: Rails Support
-nav_order: 48
+nav_order: 50
 ---
 
-Jets Afterburner mode supports deploying your Rails app requiring little changes to your code.
+Jets Afterburner mode supports deploying your Rails app requiring little changes to your code. This is an experimental feature.
 
 <div class="video-box"><div class="video-container"><iframe src="https://www.youtube.com/embed/P44Le1VF6us" frameborder="0" allowfullscreen=""></iframe></div></div>
 
@@ -63,7 +63,7 @@ Read the documentation for [Function Properties]({% link _docs/function-properti
 
 Generally, it is recommended you run Jets application directly instead of Afterburner mode. Though mostly hidden from a user perspective, there is overhead associated and extra obfuscation with Jets Afterburner. This [Mega Mode Post](https://blog.boltops.com/2018/11/03/jets-mega-mode-run-rails-on-aws-lambda) may help.
 
-When you run a Jets application natively, you also get access to the full power of Jets. Some examples are [Jobs]({% link _docs/jobs.md %}), [Events]({% link _docs/events.md %}), and [IAM Policies]({% link _docs/iam-policies.md %}).
+Though it is possible to leverage Jets features in Afterburner by adding code to [.jets/project](https://community.rubyonjets.com/t/how-to-test-an-afterburner-job-from-lambda-test-events/203), it's recommended to run Jets natively when possible. When you run a Jets application natively, you also get direct access to the full power of Jets. Some examples are [Jobs]({% link _docs/jobs.md %}), [Events]({% link _docs/events.md %}), and [IAM Policies]({% link _docs/iam-policies.md %}).
 
 ## JavaScript Runtime Error
 
@@ -74,5 +74,11 @@ If the Rails rack process fails to start up and you see this error in the CloudW
 This is because Rails includes the `uglifier` and `coffee-rails` gems, which depend on a javascript runtime. The error means a javascript runtime like node was not found. In recent versions of the AWS Lambda Ruby Runtime, it looks like node is no longer installed. To fix this, uncomment `therubyracer` in your Gemfile. Uglifier will detect that `therubyracer` javascript runtime is available and use that instead.
 
 Another approach that seems to work is to move the `uglifier` and `coffee-rails` gems in the Gemfile `development` group. Jets does not bundle gems in the development group as a part of deployment to Lambda.
+
+## Endpoint request timed out Error
+
+If you are seeing a `Endpoint request timed out` error, it is probably because the rack subprocess failed to start. For performance, the rack subprocess is started outside the lambda handler function and only runs in the cold-start.
+
+Try going farther up the CloudWatch logs to find out where rackup is failing to start. That is the key. It may help to run [jets deploy](https://rubyonjets.com/reference/jets-deploy/) again and watch the logs during deployment time.  The usual errors are a database connection issue or a gem dependency issue.
 
 {% include prev_next.md %}

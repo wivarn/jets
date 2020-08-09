@@ -1,6 +1,6 @@
 ---
 title: Minimal Deploy IAM Policy
-nav_order: 81
+nav_order: 83
 ---
 
 The IAM user you use to run the `jets deploy` command needs a minimal set of IAM policies in order to deploy a Jets application. Here is a table of the baseline services needed:
@@ -96,9 +96,10 @@ If your environment requires a "least privilege" approach, these commands will c
                     "lambda:GetFunction",
                     "lambda:CreateFunction",
                     "lambda:GetLayerVersion",
-                    "lambda:GetFunctionConfiguration",
                     "lambda:DeleteFunction",
+                    "lambda:UpdateFunctionCode",
                     "lambda:GetFunctionConfiguration",
+                    "lambda:UpdateFunctionConfiguration",
                     "lambda:AddPermission",
                     "lambda:RemovePermission",
                     "lambda:InvokeFunction"

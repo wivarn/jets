@@ -39,7 +39,7 @@ describe Jets::Resource::ApiGateway::Method do
       properties = resource.properties
       # pp properties # uncomment to debug
       expect(properties["RestApiId"]).to eq "!Ref RestApi"
-      expect(properties["ResourceId"]).to eq "!Ref PostsPostIdCommentsCommentIdImagesImagesSourceUrlsSource9fe958"
+      expect(properties["ResourceId"]).to eq "!Ref PostsPostIdCommentsCommentIdImagesImagesSourcaa1e8bApiResource"
       expect(properties["HttpMethod"]).to eq "GET"
     end
   end
@@ -60,6 +60,24 @@ describe Jets::Resource::ApiGateway::Method do
 
     it "can specify an api_key_required" do
       expect(resource.properties["ApiKeyRequired"]).to eq 'true'
+    end
+  end
+
+  context "authorization scopes on rotes" do
+    let(:route) do
+      Jets::Router::Route.new(path: "posts", method: :get, to: "posts#index", authorization_scopes: %w[create delete])
+    end
+    it "can specify an authorization scopes" do
+      expect(resource.properties["AuthorizationScopes"]).to eq ["create", "delete"]
+    end
+  end
+
+  context "authorization scopes on controller" do
+    let(:route) do
+      Jets::Router::Route.new(path: "toys", method: :get, to: "toys#index")
+    end
+    it "can specify an authorization scopes" do
+      expect(resource.properties["AuthorizationScopes"]).to eq ["create", "delete"]
     end
   end
 end

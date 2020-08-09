@@ -1,6 +1,6 @@
 ---
 title: Custom Domain
-nav_order: 39
+nav_order: 40
 ---
 
 Jets can create and associate a route53 custom domain with the API Gateway endpoint.  Jets manages the vanity route53 endpoint that points to the API Gateway endpoint.  It adjusts the endpoint transparently without you having to update your endpoint if Jets determines that a new API Gateway Rest API needs to be created. The route53 record is also updated. Here's a table with some example values to explain:
@@ -87,6 +87,21 @@ Jets.application.configure do
   # ...
   config.domain.route53 = false # disable route53 from being managed by jets.
 ```
+
+## Route53 Apex Domain
+
+Jets creates a CNAME route53 record by default. Jets can also create zone apex records or naked domain names. Example:
+
+```ruby
+Jets.application.configure do
+  config.domain.cert_arn = "arn:aws:acm:us-west-2:112233445577:certificate/8d8919ce-a710-4050-976b-b33da991e7e8" # String
+  config.domain.hosted_zone_name = "coolapp.com" # String
+  config.domain.name = "coolapp.com"
+  config.domain.apex = true # # apex or naked domain. Use AliasTarget with an A record instead of a CNAME
+end
+```
+
+Though apex records are supported, it is recommended to put CloudFront of the API Gateway Custom Domain instead.
 
 ## CloudFront Recommendation
 

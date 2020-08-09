@@ -36,6 +36,8 @@ module Jets::Resource::ApiGateway
         method_responses: []
       }
       props[:authorizer_id] = authorizer_id if authorizer_id
+      props[:authorization_scopes] = authorization_scopes if authorization_scopes
+
       props
     end
 
@@ -83,7 +85,7 @@ module Jets::Resource::ApiGateway
     def resource_id
       @route.path == '' ?
        "RootResourceId" :
-       Jets::Resource.truncate_id("#{resource_logical_id.camelize}ApiResource")
+       Jets::Resource.truncate_id(resource_logical_id.camelize, "ApiResource")
     end
 
     # Example: Posts

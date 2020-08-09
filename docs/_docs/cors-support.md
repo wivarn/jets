@@ -1,6 +1,6 @@
 ---
 title: CORS Support
-nav_order: 40
+nav_order: 41
 ---
 
 Enabling CORS is simple.  You just set `config.cors` in the `config/application.rb` file.  Here's an example:
@@ -37,7 +37,7 @@ If you need full customization of the CORS response headers, you can set `config
 Jets.application.configure do
   # ...
   config.cors = {
-    "access-control-allow-origin" => "*.mydomain.com"
+    "access-control-allow-origin" => "*.mydomain.com",
     "access-control-allow-credentials" => true,
   }
 end

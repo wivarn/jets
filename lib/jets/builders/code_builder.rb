@@ -77,11 +77,12 @@ module Jets::Builders
     end
 
     def exist_on_s3?(filename)
+      return false if ENV['JETS_BUILD_NO_INTERNET']
       s3_key = "jets/code/#{filename}"
       begin
         s3.head_object(bucket: s3_bucket, key: s3_key)
         true
-      rescue Aws::S3::Errors::NotFound
+      rescue Aws::S3::Errors::NotFound, Aws::S3::Errors::Forbidden
         false
       end
     end
@@ -98,8 +99,17 @@ module Jets::Builders
 
       # Code prep and zipping
       check_code_size!
-      generate_shims
-      calculate_md5s # must be called before create_zip_files because checksums need to be populated
+      calculate_md5s # must be called before create_zip_files and generate_shims because checksums need to be populated
+      # generate_shims and create_zip_files use checksums
+      #
+      # Notes:
+      #
+      # Had moved calculate_md5s to fix a what thought was a subtle issue https://github.com/tongueroo/jets/pull/424
+      # But am unsure about that the fix now. This essentially reverts that issue.
+      #
+      # Fix in https://github.com/tongueroo/jets/pull/459
+      #
+      generate_shims # the generated handlers/data.yml has rack_zip key
       create_zip_files
     end
 
@@ -225,7 +235,7 @@ module Jets::Builders
 
       # Need to capture JETS_ROOT since can be changed by Turbo mode
       jets_root = Jets.root
-      Bundler.with_clean_env do
+      Bundler.with_unbundled_env do
         # Switch gemfile for Afterburner mode
         gemfile = ENV['BUNDLE_GEMFILE']
         ENV['BUNDLE_GEMFILE'] = "#{jets_root}/rack/Gemfile"

@@ -3,6 +3,44 @@
 All notable changes to this project will be documented in this file.
 This project *loosely tries* to adhere to [Semantic Versioning](http://semver.org/).
 
+## [2.3.16]
+- #466 fix application_config typo
+- #467 Handle forbidden error from s3
+- #468 authorization_scopes
+- #469 Fixed typo from STMP to SMTP
+- #470 remove json dependency
+- #471 use `Bundler.with_unbundled_env` remove bundler deprecation
+
+## [2.3.15]
+- #461 fix guesser lookup for long function names
+
+## [2.3.14]
+- #432 filtered_parameters support
+- #447 improve nested routes support. order routes so that nested resources always work
+- #451 Fix Jets turbo DB encoding
+- #452 Print Cfn templates location after build
+- #458 update webpacker fork with jetpacker gem
+- #459 fix afterburner mode
+
+## [2.3.13]
+- #430 Remove out-of-date note about FIFO Queue
+- #433 Fixed ApiResources with long names not included in the main CloudFormation template
+- #435 fix typo SMTP
+- #437 Ignore *.local files when JETS_ENV_REMOTE=1
+- #438 Forcing sort of initializers
+- #446 temp fix for actionmailer turbine initializer
+- update to ruby 2.5.7
+
+## [2.3.12]
+- #421 use underscore for database name in database.yml
+- #422 url_for: allow any activemodel compatiable object to work
+- #423 add apex domain support
+- #424 md5 fix subtle bug when code doesnt get uploaded from newly generated shims
+- #425 add hosted zone id support
+- #426 use headers origin for actual host in case of cloudfront in front
+- #428 fixes to JETS_BUILD_NO_INTERNET env var option
+- #429 fix simple function tmp_loader
+
 ## [2.3.11]
 - #419 Added forward slash before script_name env variable, so that correct path get generated. As it happens Rails
 

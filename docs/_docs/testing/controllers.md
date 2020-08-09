@@ -1,6 +1,6 @@
 ---
 title: Controller Spec
-nav_order: 54
+nav_order: 56
 ---
 
 Here's a simple example of a controller spec.
@@ -34,8 +34,8 @@ describe PostsController, type: :controller do
   it "index returns a success response" do
     get '/posts'
     expect(response.status).to eq 200
-    pp reponse.headers
-    pp reponse.body
+    pp response.headers
+    pp response.body
   end
 end
 ```

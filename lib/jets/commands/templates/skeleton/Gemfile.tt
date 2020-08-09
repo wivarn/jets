@@ -6,7 +6,7 @@ gem "dynomite", path: "/home/ec2-user/tongueroo/dynomite"
 <% end -%>
 
 <% if @webpacker -%>
-# Include jetpacker if you are you are building html pages
+# Include jetpacker if you are building html pages
 gem "jetpacker"
 <% end -%>
 <% if @database == 'postgresql' %>
